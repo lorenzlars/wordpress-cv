@@ -12,7 +12,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      cli:
+      cli_init:
         condition: service_completed_successfully
     ports:
       - "${WP_PORT}:80"
@@ -34,9 +34,9 @@ services:
       retries: 3
       start_interval: 3s
 
-  cli:
+  cli_init:
     image: wordpress:cli
-    container_name: wordpress_cli
+    container_name: wordpress_cli_init
     volumes:
       - ./init.sh:/init.sh
       - data:/var/www/html
@@ -52,3 +52,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  cli-post:
+    image: wordpress:cli
+    container_name: wordpress_cli_post
+    volumes:
+      - ./post.sh:/post.sh
+      - data:/var/www/html
+      - ./src:/var/www/html/wp-content
+    entrypoint: ["sh", "-c", "/post.sh"]
+    depends_on:
+      - app
