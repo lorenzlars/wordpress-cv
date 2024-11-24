@@ -1,2 +1,5 @@
 # Editors
 .idea
+
+# PhpStorm WordPress Framework
+.wordpress

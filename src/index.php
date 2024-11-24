@@ -11,7 +11,6 @@
  *
  * @package CV
  */
-
 get_header();
 ?>
 
